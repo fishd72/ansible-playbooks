@@ -1,0 +1,4 @@
+---
+install_neovim_repo: https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+install_neovim_location: "{{ ansible_user_dir }}/.local/bin/"
+install_neovim_checksum: sha256:https://github.com/neovim/neovim/releases/download/stable/nvim.appimage.sha256sum

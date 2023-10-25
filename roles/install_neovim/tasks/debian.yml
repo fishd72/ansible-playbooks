@@ -1,0 +1,13 @@
+---
+- name: Create local bin folder
+  ansible.builtin.file:
+    path: "{{ install_neovim_location }}"
+    state: directory
+    mode: '0755'
+
+- name: Download Neovim nvim.appimage
+  ansible.builtin.get_url:
+    url: "{{ install_neovim_repo }}"
+    dest: "{{ install_neovim_location }}"
+    checksum: "{{ install_neovim_checksum }}"
+    mode: '0744'
