@@ -1,0 +1,10 @@
+---
+- name: Redhat | Install libselinux-python
+  ansible.builtin.yum:
+    name: libselinux-python
+
+- name: Redhat | Update sysconfig
+  ansible.builtin.lineinfile:
+    path: /etc/sysconfig/network
+    line: "HOSTNAME={{ config_hostname_fqdn }}"
+    regexp: "HOSTNAME="
