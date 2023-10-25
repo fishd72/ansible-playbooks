@@ -1,0 +1,23 @@
+- name: Install Basic Packages
+  ansible.builtin.apt:
+    pkg: "{{ basic_packages }}"
+    state: present
+
+- name: Install Extra Packages
+  ansible.builtin.apt:
+    pkg: "{{ extra_packages }}"
+    state: present
+  when: extra_packages is defined
+
+- name: Install Qemu Guest Tools
+  ansible.builtin.apt:
+    pkg: qemu-guest-agent
+    state: present
+  when: ansible_virtualization_role == "guest" and ansible_virtualization_type == "kvm"
+
+- name: Install VMware tools
+  ansible.builtin.apt:
+    pkg: open-vm-tools
+    state: present
+  when: ansible_virtualization_role == "guest" and ansible_virtualization_type == "vmware"
+  notify: Reboot host
