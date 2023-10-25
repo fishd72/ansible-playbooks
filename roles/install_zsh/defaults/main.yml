@@ -1,0 +1,6 @@
+---
+install_zsh_dependencies: []
+install_zsh_executable: "/usr/bin/zsh"
+
+install_zsh_users:
+  - "{{ ansible_user_id }}"

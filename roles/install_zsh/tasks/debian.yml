@@ -1,0 +1,17 @@
+---
+- name: Ensure zsh with dependencies are installed
+  ansible.builtin.apt:
+    name: "{{ ['zsh'] + install_zsh_dependencies }}"
+    state: present
+    update_cache: true
+  tags:
+    - zsh
+    - dependencies
+
+- name: Configure zsh as default shell for users
+  ansible.builtin.include_tasks: users.yml
+  loop: "{{ install_zsh_users }}"
+  tags:
+    - zsh
+    - config
+    - user
