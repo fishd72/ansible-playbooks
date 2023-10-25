@@ -1,2 +1,2 @@
-sshd_config: /etc/ssh/sshd_config
-sshd: sshd
+config_sshd_file: /etc/ssh/sshd_config
+config_sshd_service: sshd
