@@ -1,0 +1,45 @@
+---
+- name: Include Debian specific OS variables
+  ansible.builtin.include_vars: "debian.yml"
+
+- name: Install docker prerequisites
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+      - python3-pip
+
+- name: Install docker repository key
+  ansible.builtin.apt_key:
+    url: "{{ install_docker_gpg_path }}"
+    keyring: "{{ install_docker_gpg_key }}"
+    state: present
+
+- name: Add docker repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch={{ apt_repo_arch_type[ansible_architecture] }} signed-by={{ install_docker_gpg_key }}] {{ install_docker_repo_path }}
+    state: present
+
+- name: Install docker packages
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+
+- name: Install pip docker
+  ansible.builtin.pip:
+    name:
+      - docker
+      - docker-compose
+    state: present
+
+- name: Add user to Docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: true

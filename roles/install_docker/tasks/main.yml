@@ -1,5 +1,4 @@
-- name: Include Debian specific OS variables
-  include_vars: "Debian.yml"
-
-- include_tasks: setup-Debian.yml
+---
+- name: Install docker on Debian hosts
+  ansible.builtin.include_tasks: debian.yml
   when: (ansible_os_family == 'Debian')
