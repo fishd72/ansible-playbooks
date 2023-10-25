@@ -1,0 +1,25 @@
+- name: Ensure fonts directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.fonts"
+    state: directory
+    mode: '0755'
+
+- name: Check to see if font exists
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/.fonts/{{ install_font_name }}NerdFont-Regular.ttf"
+  register: font_present
+
+- name: Check for latest font version
+  community.general.github_release:
+    user: "{{ install_font_repo_user }}"
+    repo: "{{ install_font_repo_name }}"
+    action: latest_release
+  when: not font_present.stat.exists
+  register: font_release
+
+- name: Download and install font
+  ansible.builtin.unarchive:
+    src: "https://github.com/{{ install_font_repo_user }}/{{ install_font_repo_name }}/releases/download/{{ font_release }}/{{ install_font_name }}.zip"
+    dest: "{{ lookup('env', 'HOME') }}/.fonts/"
+    remote_src: true
+  when: not font_present.stat.exists

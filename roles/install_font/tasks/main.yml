@@ -1,0 +1,4 @@
+---
+- name: Install custom font on linux hosts
+  ansible.builtin.include_tasks: linux.yml
+  when: ansible_facts['os_family'] == "Debian" or ansible_facts['os_family'] == "Redhat"
