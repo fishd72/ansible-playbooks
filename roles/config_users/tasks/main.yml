@@ -1,0 +1,18 @@
+---
+- name: "Create new user named {{ raspi_user }}"
+  ansible.builtin.user:
+    name: "{{ raspi_user }}"
+    password: "{{ secret_password | password_hash('sha512') }}"
+    groups: "{{ config_users_default_groups }}"
+    shell: /bin/bash
+    update_password: on_create
+  when: raspi_user is defined
+
+- name: Remove default users
+  ansible.builtin.user:
+    name: "{{ item }}"
+    state: absent
+    remove: true
+  loop:
+    - pi
+    - ubuntu
