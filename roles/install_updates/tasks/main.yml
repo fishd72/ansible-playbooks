@@ -1,0 +1,4 @@
+---
+- name: Install debian updates
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_facts['os_family'] == "Debian"
