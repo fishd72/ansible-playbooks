@@ -1,19 +1,21 @@
 ---
-dotfiles_repo_local_destination: "{{ ansible_user_dir }}/.dotfiles"
+dotfiles_repo_local_destination: "{{ ansible_user_dir }}/src/dotfiles"
 dotfiles_repo: "https://github.com/fishd72/Dotfiles.git"
 dotfiles_repo_version: master
 dotfiles_repo_accept_hostkey: false
 
 dotfiles_home: "~"
+
 dotfiles_directories:
-  - .config/vifm/colors
-  - .config/lxterminal
-  - .vim/colors
+  - .config/nvim/
+  - .config/tmux/
+  - .config/vifm/colors/
+  - .config/lxterminal/
+  - .vim/colors/
+  - .zsh/
+
 dotfiles_files:
   - .aliases
-  - .bash_env
-  - .bash_logout
-  - .bashrc
   - .config/lxterminal/lxterminal.conf
   - .config/vifm/vifmrc
   - .config/vifm/colors/palenight.vifm
@@ -25,15 +27,27 @@ dotfiles_files:
   - .gitconfig-corporate
   - .gitignore
   - .hushlogin
-  - .inputrc
   - .nanorc
-  - .profile
   - .vim/colors/nord.vim
   - .vimrc
   - .zprofile
   - .zshrc
 
-basic_packages: [ 'wget', 'curl', 'vim', 'git', 'vifm', 'nano', 'tmux' ]
+zsh_plugins:
+  - https://github.com/agkozak/agkozak-zsh-prompt
+  - https://github.com/zsh-users/zsh-autosuggestions
+  - https://github.com/zsh-users/zsh-history-substring-search
+  - https://github.com/zsh-users/zsh-syntax-highlighting
+
+basic_packages: [ 'wget', 'curl', 'zsh', 'git', 'vifm', 'nano', 'tmux', 'lolcat', 'fortune-mod' ]
+
+neovim_download: https://github.com/neovim/neovim/releases/download/v0.9.1/nvim.appimage
+
+git_repos:
+  - https://github.com/agkozak/agkozak-zsh-prompt
+  - https://github.com/zsh-users/zsh-syntax-highlighting
+  - https://github.com/zsh-users/zsh-history-substring-search
+  - https://github.com/zsh-users/zsh-autosuggestions
 
 # Code to work out correct Debian repo Architectures.
 # Use {{ apt_repo_arch_type[ansible_architecture] }} instead of [arch=amd64]
@@ -63,3 +77,4 @@ apt_repo_mint_fix:
   bionic: bionic
   bullseye: bullseye
   buster: buster
+  bookworm: bookworm
