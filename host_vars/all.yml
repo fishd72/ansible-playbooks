@@ -1,0 +1,3 @@
+---
+proxmox_vm_storage: "vm_local"
+proxmox_iso_storage: "iso_local"

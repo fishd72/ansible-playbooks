@@ -1,0 +1,53 @@
+---
+- name: Create Fedora Server VM with demo user
+  hosts: localhost
+  gather_facts: true
+  vars:
+    proxmox_host: "freya.local.fishd.uk"
+
+  vars_files:
+    - vault.yml
+
+  tasks:
+    - name: Create Fedora VM
+      community.general.proxmox_kvm:
+        api_host: "{{ proxmox_host }}"
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        node: "freya"
+        name: "fedora-demo-server"
+        vmid: 120
+        memory: 4096
+        cores: 2
+        cpu: "host"
+        ostype: "l26"
+        agent: enabled=1
+        net:
+          net0: "virtio,bridge=vmbr0"
+        virtio:
+          virtio0: "{{ vm_local }}:32"
+        ide:
+          ide2: "{{ iso_local }}:iso/alpine-virt-3.20.1-x86_64.iso,media=cdrom"
+        serial:
+          serial0: "socket"
+        vga: "serial0"
+        boot: "order=ide2;virtio0"
+        bootdisk: "virtio0"
+        ciuser: "{{ proxmox_ci_user }}"
+        cipassword: "{{ proxmox_ci_password }}"
+        citype: "nocloud"
+        ipconfig:
+          ipconfig0: "ip=dhcp"
+        sshkeys: "{{ proxmox_ssh_key }}"
+        state: present
+
+    - name: Start VM
+      community.general.proxmox_kvm:
+        api_host: "{{ proxmox_host }}"
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        node: "freya"
+        vmid: 120
+        state: started
