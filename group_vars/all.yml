@@ -1,4 +1,7 @@
 ---
+proxmox_vm_storage: "vm_local"
+proxmox_iso_storage: "iso_local"
+
 dotfiles_repo_local_destination: "{{ ansible_user_dir }}/src/dotfiles"
 dotfiles_repo: "https://github.com/fishd72/Dotfiles.git"
 dotfiles_repo_version: master

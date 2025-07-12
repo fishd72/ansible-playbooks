@@ -1,3 +1,3 @@
 #!/bin/bash
 
-op read "op://Secure/ansible_vault/password"
+op read "op://Ansible/ansible_vault/password"
